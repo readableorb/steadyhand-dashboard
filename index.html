@@ -13,15 +13,15 @@
 
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script>
-    const client = mqtt.connect('wss://io.adafruit.com/mqtt', {
+    const client = mqtt.connect('wss://broker.hivemq.com:8884/mqtt', {
       username: 'Readableorb',
       password: 'aio_ZVuV18INtvweqvqje5ApFuFbSBc3'
     });
     client.on('connect', () => {
-      client.subscribe('Readableorb/feeds/roll');
-      client.subscribe('Readableorb/feeds/pitch');
-      client.subscribe('Readableorb/feeds/servo1');
-      client.subscribe('Readableorb/feeds/servo2');
+      client.subscribe('steadyhand/roll');
+      client.subscribe('steadyhand/pitch');
+      client.subscribe('steadyhand/servo1');
+      client.subscribe('steadyhand/servo2');
     });
     client.on('message', (topic, message) => {
       const val = message.toString();
