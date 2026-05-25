@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SteadyHand Dashboard</title>
+</head>
+<body>
+  <h1>SteadyHand Live Data</h1>
+  <p>Roll: <span id="roll">--</span>°</p>
+  <p>Pitch: <span id="pitch">--</span>°</p>
+  <p>Servo 1: <span id="servo1">--</span>°</p>
+  <p>Servo 2: <span id="servo2">--</span>°</p>
+
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script>
+    const client = mqtt.connect('wss://io.adafruit.com/mqtt', {
+      username: 'Readableorb',
+      password: 'aio_bQcc224M7Hc1lZO3oeSDy8V2hh9b'
+    });
+    client.on('connect', () => {
+      client.subscribe('Readableorb/feeds/roll');
+      client.subscribe('Readableorb/feeds/pitch');
+      client.subscribe('Readableorb/feeds/servo1');
+      client.subscribe('Readableorb/feeds/servo2');
+    });
+    client.on('message', (topic, message) => {
+      const val = message.toString();
+      if (topic.includes('roll'))   document.getElementById('roll').textContent   = val;
+      if (topic.includes('pitch'))  document.getElementById('pitch').textContent  = val;
+      if (topic.includes('servo1')) document.getElementById('servo1').textContent = val;
+      if (topic.includes('servo2')) document.getElementById('servo2').textContent = val;
+    });
+  </script>
+</body>
+</html>
